@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-default: rgb(51, 51, 51);
+  --color-default-txtcolor: rgb(243, 243, 243);
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgb(51, 51, 51) inset !important;
+  -webkit-text-fill-color: white !important;
+  transition:
+    background-color 9999s ease-out,
+    color 9999s ease-out;
+}
