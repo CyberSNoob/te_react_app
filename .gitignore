@@ -34,6 +34,7 @@ venv/
 env/
 .env
 .env.*
+!.env.example
 some_tests/
 
 #static folder
