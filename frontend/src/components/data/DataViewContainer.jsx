@@ -1,9 +1,9 @@
-import Aside from "./Aside";
-import { DataView } from "./DataView";
+import Aside from "./Aside.jsx";
+import { DataView } from "./DataView.jsx";
 import PropTypes from "prop-types";
 import { useState, useEffect, Suspense } from "react";
 import { getData } from "./Api.js";
-import { VIEWS } from "../../constants/view";
+import { VIEWS } from "../../constants/view.js";
 import { useDataStore } from "../nav/store.js";
 
 const DataViewContainer = ({ view, navigate }) => {

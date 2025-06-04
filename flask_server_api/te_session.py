@@ -2,14 +2,12 @@ import os
 import logging
 import tradingeconomics as te
 
+from flask_server_api.config import Config
 from flask_server_api.constants import TE_FUNCTIONS
 
 logger = logging.getLogger(__name__)
-# TE_API_KEY = 'guest:guest'
 
-TE_API_KEY = os.getenv("TE_API_KEY")
-if not TE_API_KEY:
-    TE_API_KEY = 'guest:guest'
+TE_API_KEY = Config.TE_API_KEY
 
 def init_client(func):
     @classmethod
@@ -27,9 +25,9 @@ class TEAdapter():
             logger.debug("Not logged in, attempting to log in...")
             te.login(TE_API_KEY)
             cls._client = te
-            logger.info("Successfully logged in!")
+            logger.debug("Successfully logged in with %s", str(TE_API_KEY))
         else:
-            logger.debug("Already logged in.")
+            logger.debug("Already logged in wit %s", str(TE_API_KEY))
 
     @init_client
     def fetch(cls, data_kind, **kwargs):

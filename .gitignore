@@ -10,6 +10,7 @@ lerna-debug.log*
 # node/vite
 node_modules/
 dist
+frontend/dist/
 dist-ssr
 *.local
 dist/ 
@@ -34,3 +35,6 @@ env/
 .env
 .env.*
 some_tests/
+
+#static folder
+/flask_server_api/static

@@ -5,3 +5,7 @@ TE_FUNCTIONS = {
     'forecast' : 'getForecastData',
     'search': 'getSearch'
 }
+
+DEFAULT_COUNTRIES = {'country' : 'Mexico, New Zealand, Sweden, Thailand'}
+
+DEFAULT_COUNTRY = {'country': ['sweden']}

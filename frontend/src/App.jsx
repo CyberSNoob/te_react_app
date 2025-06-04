@@ -6,6 +6,7 @@ import Router from "./components/Router";
 const Banner = () => (
   <div className="text-white bg-red-500 font-medium text-xl flex justify-center uppercase">
     <p>Example app</p>
+    <label htmlFor=""></label>
   </div>
 );
 

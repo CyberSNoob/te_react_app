@@ -61,7 +61,7 @@ export const Contact = () => {
 
   return (
     <section className="flex flex-col gap-y-6 my-6 px-4 bg-[#fafafa]">
-      <h1 className="uppercase font-bold text-xl">Contact Form</h1>
+      <h1 className="uppercase font-bold text-xl">Contact Form (DOESNT WORK YET)</h1>
       <form onSubmit={submit}>
         <fieldset>
           <InputField label="First Name" name="fname" value={formData.fname} onChange={onChange} required={true}/>

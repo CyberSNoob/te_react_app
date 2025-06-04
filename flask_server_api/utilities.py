@@ -7,24 +7,21 @@ import pandas as pd
 import aiohttp
 from flask_server_api import custom_date as cd
 from flask_server_api import logging_config
+from flask_server_api.config import Config
 
-API_KEY = os.getenv("TE_API_KEY")
+API_KEY = Config.TE_API_KEY
 HEADERS = {"Authorization":API_KEY, "f":"json"}
-ROOT_URL = "https://api.tradingeconomics.com"
+ROOT_URL = Config.TE_API_URL
 logger = logging.getLogger(__name__)
 
 logger.debug(f"API key found: {API_KEY}" if API_KEY else
       "No API key found, please set the API_KEY in the environment variable before continuing.")
-
-# def _format_column_dates(cols):
-#     return cd.default_format(pd.to_datetime(cols).dt)
 
 def preprocess_data(df, new_column_order, new_column_names, sort_values):
     # rename, modify columns and sort based on values
     df.rename(columns=new_column_names, inplace=True)
     df = df[new_column_order]
     df.sort_values(by=sort_values, inplace=True, ascending=False)
-
     return df
 
 def prepare_dividends_data(json_data):
@@ -60,6 +57,8 @@ def prepare_eurostat_data(json_data):
     df['Date'] = cd.default_format(df['Date'], cd.DATE_FORMAT)
     return df.to_json(orient='records')
 
+
+# these is not used, it's for url requests.
 
 async def custom_response(response):
     logger.info(response.url)
