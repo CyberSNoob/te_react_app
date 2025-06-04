@@ -14,14 +14,8 @@ services:
     - key: FLASK_PORT
       value: 8000
     - key: REDIS_HOST
-      fromService:
-        type: redis
-        name: redis-cache
-        property: host
+      value: REDIS
     - key: REDIS_PORT
-      fromService: 
-        type: redis
-        name: redis-cache
-        property: port
+      value: 6379
     - key: TE_API_URL
       value: "https://api.tradingeconomics.com"
