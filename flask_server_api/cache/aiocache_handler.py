@@ -3,10 +3,11 @@ from functools import wraps
 import json
 import redis
 from flask_server_api import  logging_config
+from flask_server_api.config import Config
 
 logger = logging.getLogger(__name__)
 
-r = redis.Redis(host="localhost", port=6379, db=0)
+r = redis.Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
 try:
     r.ping()
     logger.info('Redis available: %r', True)

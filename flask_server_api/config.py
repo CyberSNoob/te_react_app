@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
-    DEBUG = os.getenv('DEBUG', 'False') == 'True'
     TE_API_KEY = os.getenv('TE_API_KEY', 'guest:guest')
     DEFAULT_HOST = os.getenv('DEFAULT_HOST')
     REDIS_HOST = os.getenv('DEFAULT_HOST')

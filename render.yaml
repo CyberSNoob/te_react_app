@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: flask-react-app
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn flask_server_api.server:app
+    region: frankfurt
+    plan: free
+    envVars:
+    - key: TE_API_KEY
+      sync: false
+    - key: DEFAULT_HOST
+      value: 0.0.0.0
+    - key: FLASK_PORT
+      value: 8000
+    - key: REDIS_HOST
+      fromService:
+        type: redis
+        name: redis-cache
+        property: host
+    - key: REDIS_PORT
+      fromService: 
+        type: redis
+        name: redis-cache
+        property: port
+    - key: TE_API_URL
+      value: "https://api.tradingeconomics.com"
