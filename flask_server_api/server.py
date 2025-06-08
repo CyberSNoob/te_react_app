@@ -12,6 +12,8 @@ from flask_server_api import logging_config
 
 logger = logging.getLogger(__name__)
 
+logger.warning(Config.DEVELOPMENT)
+
 app = Flask(__name__, static_folder=None if Config.DEVELOPMENT else 'static', static_url_path='/')
 
 if not Config.DEVELOPMENT:

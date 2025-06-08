@@ -16,7 +16,7 @@ services:
     - key: FLASK_PORT
       value: 10000
     - key: REDIS_HOST
-      value: REDIS
+      sync: false
     - key: REDIS_PORT
       value: 6379
     - key: FLASK_ENV
