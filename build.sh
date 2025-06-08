@@ -3,7 +3,5 @@
 cd frontend
 npm install
 npm run build
+cp -r dist/* ../flask_server_api/static
 cd ..
-
-mkdir -p flask_server_api/static
-cp -r frontend/dist/* flask_server_api/static

@@ -1,7 +1,8 @@
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+if os.getenv('FLASK_ENV') != 'production':
+    from dotenv import load_dotenv
+    load_dotenv()
 
 class Config:
     DEFAULT_API_KEY = os.getenv('DEFAULT_API_KEY', 'guest:guest')
