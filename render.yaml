@@ -9,13 +9,17 @@ services:
     envVars:
     - key: TE_API_KEY
       sync: false
+    - key: DEFAULT_API_KEY
+      value: guest:guest
     - key: DEFAULT_HOST
       value: 0.0.0.0
     - key: FLASK_PORT
-      value: 8000
+      value: 10000
     - key: REDIS_HOST
       value: REDIS
     - key: REDIS_PORT
       value: 6379
+    - key: FLASK_ENV
+      value: production
     - key: TE_API_URL
       value: "https://api.tradingeconomics.com"

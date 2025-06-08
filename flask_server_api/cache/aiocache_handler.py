@@ -23,7 +23,7 @@ def _custom_key_builder(func, *args, **kwargs):
     logger.info("Cache key: %s", key)
     return key
 
-
+# TODO: fix halfway outage
 def redis_cache(ttl=60):
     def decorator(func):
         @wraps(func)
@@ -31,7 +31,7 @@ def redis_cache(ttl=60):
             if getattr(wrapper, '_redis_disabled', False):
                 logger.warning('Problem with redis connection, bypassing cache.')
                 return func(*args, **kwargs)
-                
+            
             logger.debug("Redis is available.")
             key = _custom_key_builder(func, *args, **kwargs)
             try:
