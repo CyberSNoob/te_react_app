@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "url";
@@ -7,19 +7,31 @@ import { dirname, resolve } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
+export default defineConfig(({mode}) => {
+  const envDir = resolve(__dirname, '..');
+  const env = loadEnv(mode, envDir, '');
+
+  return {
+    plugins: [react(), tailwindcss()],
   build: {
     outDir: "../flask_server_api/static",
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(__dirname, "index.html"),
     },
+    sourcemap: true,
   },
   server: {
-    port: 5173, 
+    host: env.DEFAULT_HOST,
+    port: env.VITE_PORT,
     proxy: {
-      "/api": "http://localhost:8000", // Proxy API calls to Flask
+      "/api": {
+        target: `http://${env.DEFAULT_HOST}:${env.FLASK_PORT}`,
+        changeOrigin: true,
+      }
     },
+    sourcemap: true,
   },
+  }
+  
 });

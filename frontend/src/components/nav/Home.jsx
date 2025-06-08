@@ -1,7 +1,8 @@
 import { VIEWS } from "../../constants/view";
 import PropTypes from "prop-types";
+import navigate from "./PageNavigation";
 
-export const Home = ({ navigate }) => {
+export const Home = () => {
   return (
     <div className="grid grid-cols-2 w-full gap-6 md:gap-8 lg:gap-10 my-8 text-default-txtcolor">
       {Object.values(VIEWS.DATA).filter(v => v !== 'search').map((item) => {

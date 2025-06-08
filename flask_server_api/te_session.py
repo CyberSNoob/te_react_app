@@ -6,7 +6,6 @@ from flask_server_api.constants import TE_FUNCTIONS
 
 logger = logging.getLogger(__name__)
 
-TE_API_KEY = Config.TE_API_KEY
 
 def init_client(func):
     @classmethod
@@ -20,13 +19,23 @@ class TEAdapter():
     
     @classmethod
     def init(cls):
+        TE_API_KEY = Config.TE_API_KEY
+
         if cls._client is None:
             logger.debug("Not logged in, attempting to log in...")
-            te.login(TE_API_KEY)
+            try:
+                te.login(TE_API_KEY)
+            except Exception as e:
+                logger.error('Login failed with %s, reason: %s', TE_API_KEY, e)
+                TE_API_KEY = Config.DEFAULT_API_KEY
+                try:
+                    te.login(TE_API_KEY)
+                except Exception as fallback_error:
+                    raise PermissionError(f"Fallback login failed, unable to login with {Config.TE_API_KEY} or {Config.DEFAULT_API_KEY}.") from fallback_error
             cls._client = te
-            logger.debug("Successfully logged in with %s", str(TE_API_KEY))
+            logger.debug("Successfully logged in with %s", TE_API_KEY)
         else:
-            logger.debug("Already logged in wit %s", str(TE_API_KEY))
+            logger.debug("Already logged in with %s", TE_API_KEY)
 
     @init_client
     def fetch(cls, data_kind, **kwargs):

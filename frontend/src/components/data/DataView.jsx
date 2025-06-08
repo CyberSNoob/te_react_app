@@ -11,7 +11,6 @@ const components = {
   dividends: (props) => <Table data={props.data} />,
   news: (props) => <NewsView data={props.data} />,
   eurostat: (props) => <LineChart view={props.view} data={props.data} />,
-  search: (props) => <Table data={props.data} />,
 };
 
 export const DataView = ({ view, data }) => {

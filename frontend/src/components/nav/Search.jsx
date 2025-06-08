@@ -10,7 +10,7 @@ export default function Search({
   onVisibilityChange,
   navigate,
 }) {
-  const inputRef = useRef(null);
+  const searchBoxRef = useRef(null);
   const {setTerm, setData} = useDataStore();
   const [isSmallDevice, setIsSmallDevice] = useState(
     () => window.innerWidth < 768
@@ -27,10 +27,9 @@ export default function Search({
 
   const handleIconClick = () => {
     onVisibilityChange(true);
-    // safe check not null/undefined before call focus
     // ensures input is rendered before focusing
     setTimeout(() => {
-      inputRef.current?.focus();
+      searchBoxRef.current?.focus();
     }, 0); 
   };
 
@@ -41,7 +40,7 @@ export default function Search({
     console.log(searchValue);
     if (!searchValue) return;
     setTerm(searchValue);
-    inputRef.current.value = "";
+    searchBoxRef.current.value = "";
     const results = await postData(searchValue);
     if(!results) return;
     setData(results);
@@ -54,7 +53,7 @@ export default function Search({
       <div className="relative flex items-center p-2">
         {(!isSmallDevice || isSearchVisible) && (
           <input
-            ref={inputRef}
+            ref={searchBoxRef}
             type="text"
             name="searchBox"
             placeholder="Search"

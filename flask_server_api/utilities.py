@@ -58,7 +58,7 @@ def prepare_eurostat_data(json_data):
     return df.to_json(orient='records')
 
 
-# these is not used, it's for url requests.
+# these are not used, it's for url requests.
 
 async def custom_response(response):
     logger.info(response.url)

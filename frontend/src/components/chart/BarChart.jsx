@@ -36,7 +36,7 @@ const calculateYAxis = (chartValues, padding = 500, stepSize = 1000) => {
 const barColors = (chartValues) =>
   chartValues.map((v) => (v >= 0 ? "rgba(0,255,0,0.5)" : "rgba(255,0,0,0.5)"));
 
-const OneBarChart = ({ data, className }) => {
+const ForecastBarChart = ({ data, className }) => {
   let data_keys = Object.keys(data);
   let chartValues = data_keys
     .filter((k) => k.startsWith("q") && !k.endsWith("date"))
@@ -120,12 +120,12 @@ const BarChart = ({ data }) => {
   if (!data || typeof data !== "object") return <p>No data available</p>;
 
   return data.map((d, i) => (
-    <OneBarChart key={`bar-${i}`} data={d} className="p-2 mb-12" />
+    <ForecastBarChart key={`bar-${i}`} data={d} className="p-2 mb-12" />
   ));
 };
 
 BarChart.propTypes = { data: Proptypes.array.isRequired };
-OneBarChart.propTypes = {
+ForecastBarChart.propTypes = {
   data: Proptypes.array.isRequired,
   className: Proptypes.string.isRequired,
 };

@@ -8,7 +8,6 @@ import {
   CategoryScale,
   Tooltip,
   Legend,
-  Filler,
 } from "chart.js";
 import PropTypes from "prop-types";
 
@@ -21,9 +20,9 @@ ChartJS.register(
   CategoryScale,
   Tooltip,
   Legend,
-  Filler
 );
 
+// FOR ANOTHER DATA
 // const lineDatasets = useMemo(() => (data ? [
 //   { label: "Price",
 //     data: data.map((d) => d.value),

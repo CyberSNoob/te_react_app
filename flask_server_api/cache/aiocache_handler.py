@@ -28,7 +28,7 @@ def redis_cache(ttl=60):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            if not getattr(wrapper, '_redis_disabled', False):
+            if getattr(wrapper, '_redis_disabled', False):
                 logger.warning('Problem with redis connection, bypassing cache.')
                 return func(*args, **kwargs)
                 
