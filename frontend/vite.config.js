@@ -14,7 +14,7 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [react(), tailwindcss()],
   build: {
-    outDir: "../flask_server_api/static",
+    outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: resolve(__dirname, "index.html"),

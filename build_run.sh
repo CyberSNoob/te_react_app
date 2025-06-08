@@ -2,5 +2,7 @@
 
 cd frontend
 npm install
-npm build
+npm run build
 cd ..
+
+waitress-serve flask_server_api.server:app
