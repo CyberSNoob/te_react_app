@@ -16,3 +16,4 @@ class Config:
 
     DEVELOPMENT = os.getenv('FLASK_ENV', 'production') == 'development'
     TE_API_URL = os.getenv('TE_API_URL')
+    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')

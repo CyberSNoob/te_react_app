@@ -7,12 +7,20 @@ from flask_server_api.config import Config
 
 logger = logging.getLogger(__name__)
 
-r = redis.Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
-try:
-    r.ping()
-    logger.info('Redis available: %r', True)
-except redis.ConnectionError as e:
-    logger.error("Not connected to redis server: %s", e)
+if Config.DEVELOPMENT:
+    r = redis.Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
+    try:
+        r.ping()
+        logger.info('Redis available: %r', True)
+    except redis.ConnectionError as e:
+        logger.error("Not connected to redis server: %s", e)
+else:
+    try:
+        r = redis.from_url(Config.REDIS_URL)
+        r.ping()
+        logger.info('Redis available: %r', True)
+    except redis.ConnectionError as e:
+        logger.error("No redis available")
 
 def _custom_key_builder(func, *args, **kwargs):
     logger.info("Custom key builder function")
