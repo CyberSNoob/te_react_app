@@ -20,7 +20,7 @@ else:
         r.ping()
         logger.info('Redis available: %r', True)
     except redis.ConnectionError as e:
-        logger.error("No redis available")
+        logger.error("Unable to use redis.")
 
 def _custom_key_builder(func, *args, **kwargs):
     logger.info("Custom key builder function")

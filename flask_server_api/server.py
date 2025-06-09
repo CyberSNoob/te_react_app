@@ -14,25 +14,12 @@ logger = logging.getLogger(__name__)
 
 logger.warning(Config.DEVELOPMENT)
 
-app = Flask(__name__, static_folder=None if Config.DEVELOPMENT else 'static', static_url_path='/')
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": Config.FRONTEND_URL}})
 
-if not Config.DEVELOPMENT:
-    from pathlib import Path
-
-    @app.route('/', defaults={'path':''})
-    @app.route('/<path:path>')
-    def serve_react(path):
-        file_path = Path(app.static_folder) / path
-        if file_path.is_file():
-            return send_from_directory(app.static_folder, path)
-        return send_from_directory(app.static_folder, 'index.html')
-else:
-    logger.debug('Flask development mode on')
-    CORS(app, resources={r"/api/*": {"origins": f"http://{Config.DEFAULT_HOST}:{Config.FLASK_PORT}"}})
-    @app.route('/')
-    def index():
-        return "<h1>API server</h1>"
-
+@app.route('/')
+def index():
+    return "<h1>API server</h1>"
 
 @app.route('/api/dividends')
 @route_guard

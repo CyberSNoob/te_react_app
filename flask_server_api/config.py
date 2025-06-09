@@ -1,6 +1,6 @@
 import os
 
-if os.getenv('FLASK_ENV') != 'production':
+if os.getenv('FLASK_ENV') == 'development':
     from dotenv import load_dotenv
     load_dotenv()
 
@@ -16,5 +16,8 @@ class Config:
     REDIS_PORT = int(os.getenv('REDIS_PORT', 6379))
 
     DEVELOPMENT = os.getenv('FLASK_ENV', 'production') == 'development'
+    REDIS_URL = os.getenv('REDIS_URL', f'redis://{DEFAULT_HOST}:{REDIS_PORT}')
+    FRONTEND_URL = os.getenv('FRONTEND_URL', f"http://{DEFAULT_HOST}:{VITE_PORT}")
+    VITE_API_URL = os.getenv('VITE_API_URL', f"http://{DEFAULT_HOST}:{FLASK_PORT}")
     TE_API_URL = os.getenv('TE_API_URL')
-    REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
+

@@ -7,31 +7,31 @@ import { dirname, resolve } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig(({mode}) => {
-  const envDir = resolve(__dirname, '..');
-  const env = loadEnv(mode, envDir, '');
+export default defineConfig(({ mode }) => {
+  const envDir = resolve(__dirname, "..");
+  const env = loadEnv(mode, envDir, "");
+  const isDev = mode === "development";
 
   return {
     plugins: [react(), tailwindcss()],
-  build: {
-    outDir: "dist",
-    emptyOutDir: true,
-    rollupOptions: {
-      input: resolve(__dirname, "index.html"),
+    build: {
+      outDir: "dist",
+      emptyOutDir: true,
+      rollupOptions: {
+        input: resolve(__dirname, "index.html"),
+      },
+      sourcemap: isDev,
     },
-    sourcemap: true,
-  },
-  server: {
-    host: env.DEFAULT_HOST,
-    port: env.VITE_PORT,
-    proxy: {
-      "/api": {
-        target: `http://${env.DEFAULT_HOST}:${env.FLASK_PORT}`,
-        changeOrigin: true,
-      }
+    server: {
+      host: env.DEFAULT_HOST,
+      port: env.VITE_PORT,
+      proxy: {
+        "/api": {
+          target: env.VITE_API_URL,
+          changeOrigin: true,
+        },
+      },
+      sourcemap: isDev,
     },
-    sourcemap: true,
-  },
-  }
-  
+  };
 });
