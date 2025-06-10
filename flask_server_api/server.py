@@ -12,6 +12,8 @@ from flask_server_api import logging_config
 
 logger = logging.getLogger(__name__)
 
+logger.info(Config.TE_API_KEY)
+
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": Config.FRONTEND_URL}})
 

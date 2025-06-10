@@ -1,29 +1,42 @@
 SET UP
 
 Install (if not already):
+
 - git
 - nodejs
 - python3
 - docker. For redis caching (optional for performance increase)
 
-Instructions: 
-Run in your chosen folder: 
+INSTRUCTIONS (only running locally):
+
+In chosen folder:
 git clone https://github.com/CyberSNoob/te_react_app
 
-Modify as needed the file .env.example
-TE_API_KEY, DEFAULT_HOST and REDIS_HOST
-If running locally, only set TE_API_KEY, else it'll use a default api key.
+- Modify TE_API_KEY in .env.example file else DEFAULT api key will be used
+- change .env.example to .env
 
-REDIS server
-Set up redis 
+REDIS SERVER
+- Get latest redis image in docker, default port 6379
+- Run redis container
 
-Run the following scripts to setup and run
+SIMPLEST WAY
+<!-- Single command that handles setup and run the app. -->
+npm run complete-win-prod (FOR WINDOWS)
+npm run complete-prod-linux (FOR LINUX)
 
-WINDOWS/LINUX
-For first time run or changes to .env or package.json, run this command: npm run complete:prod
-Otherwise: npm run start:prod
-For more information on commands, see package.json
+DEVELOPMENT MODE
+<!-- If new user, run the first command once before running dev-app. -->
+npm run setup-win (FOR WINDOWS)
+npm run setup-linux (FOR LINUX)
 
-Docker
-Install docker and redis docker image
+npm run dev-app
 
+LOCAL PRODUCTION MODE
+<!-- Again if new user, depending on system first run: npm run setup-win or npm run setup-linux -->
+Run the app:
+npm run start-win-prod (FOR WINDOWS)
+npm run start-prod-linux (FOR LINUX)
+
+For more commands, see package.json
+
+Access the app on localhost:3000
