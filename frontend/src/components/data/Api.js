@@ -6,10 +6,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const getData = async (view) => {
   try {
     const response = await axios.get(`${API_URL}/api/${view}`);
-    console.log(
-      `Get ${view} data from ${response.config.url}: `,
-      response.data
-    );
     return response.data;
   } catch (e) {
     console.error("Error", e);

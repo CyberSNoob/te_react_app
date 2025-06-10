@@ -16,7 +16,7 @@ const ExpandableText = ({ text = "" }) => {
         width < 500
           ? maxBaseChars * 1.5
           : width >= 500 && width < 770
-            ? maxBaseChars * 2.5
+            ? maxBaseChars * 2.3
             : maxBaseChars;
       setMaxChars(newMaxChars);
       console.log(newMaxChars);
