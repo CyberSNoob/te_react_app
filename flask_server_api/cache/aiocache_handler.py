@@ -8,16 +8,16 @@ from flask_server_api.config import Config
 logger = logging.getLogger(__name__)
 
 if Config.DEVELOPMENT:
-    r = redis.Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
+    redis_client = redis.Redis(host=Config.REDIS_HOST, port=Config.REDIS_PORT, db=0)
     try:
-        r.ping()
+        redis_client.ping()
         logger.info('Redis available: %r', True)
     except redis.ConnectionError as e:
         logger.error("Not connected to redis server: %s", e)
 else:
     try:
-        r = redis.from_url(Config.REDIS_URL)
-        r.ping()
+        redis_client = redis.from_url(Config.REDIS_URL)
+        redis_client.ping()
         logger.info('Redis available: %r', True)
     except redis.ConnectionError as e:
         logger.error("Unable to use redis.")
@@ -44,7 +44,7 @@ def redis_cache(ttl=60):
             key = _custom_key_builder(func, *args, **kwargs)
             try:
                 logger.info("Try to get key: %s", key)
-                cache_data = r.get(key)
+                cache_data = redis_client.get(key)
                 if cache_data:
                     logger.info("cache found, loading from cache")
                     return json.loads(cache_data.decode())
@@ -59,7 +59,7 @@ def redis_cache(ttl=60):
             if api_data:
                 try:
                     logger.info("Try setting key: %s", key)
-                    r.setex(key, ttl, json.dumps(api_data, default=str))
+                    redis_client.setex(key, ttl, json.dumps(api_data, default=str))
                     logger.info("Succesfully cached key: %s", key)
                 except (TypeError, redis.RedisError) as e:
                     logger.warning("Failed to cache key %s due to error: %s", key, e)

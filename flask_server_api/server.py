@@ -12,8 +12,6 @@ from flask_server_api import logging_config
 
 logger = logging.getLogger(__name__)
 
-logger.warning(Config.DEVELOPMENT)
-
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": Config.FRONTEND_URL}})
 
@@ -71,6 +69,7 @@ def post_contactform():
     form_data = request.json
     logger.info(form_data)
     return jsonify(form_data)
+
 
 if __name__ == '__main__':
     import sys

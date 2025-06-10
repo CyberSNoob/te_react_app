@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k \"npm run dev:react\" \"npm run dev:flask\"",
     "dev:react": "vite",
-    "dev:flask": "cd .. && python -m flask_server_api.server",
+    "dev:flask": "cd .. && flask --app flask_server_api.server run --debug",
+    "dev": "concurrently -k \"npm run dev:react\" \"npm run dev:flask\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

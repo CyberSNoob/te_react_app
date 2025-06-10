@@ -19,16 +19,10 @@ Set up redis
 
 Run the following scripts to setup and run
 
-WINDOWS
-setup.cmd (run once)
-build_run.cmd (build and run server)
-
-LINUX
-setup.sh
-build_run.sh
-
-Python setup
-setup.py
+WINDOWS/LINUX
+For first time run or changes to .env or package.json, run this command: npm run complete:prod
+Otherwise: npm run start:prod
+For more information on commands, see package.json
 
 Docker
 Install docker and redis docker image
