@@ -21,23 +21,29 @@ REDIS SERVER
 - Run redis container
 
 SIMPLEST WAY
-<!-- Single command that handles setup and run the app. -->
+# Single command that handles setup and run the app.
 npm run complete-win-prod (FOR WINDOWS)
+
 npm run complete-prod-linux (FOR LINUX)
 
 DEVELOPMENT MODE
-<!-- If new user, run the first command once before running dev-app. -->
+# If new user, run the first command once before running dev-app.
 npm run setup-win (FOR WINDOWS)
+
 npm run setup-linux (FOR LINUX)
 
 npm run dev-app
 
 LOCAL PRODUCTION MODE
-<!-- Again if new user, depending on system first run: npm run setup-win or npm run setup-linux -->
+# Again if new user, depending on system first run: npm run setup-win or npm run setup-linux
 Run the app:
+
 npm run start-win-prod (FOR WINDOWS)
+
 npm run start-prod-linux (FOR LINUX)
 
+
 For more commands, see package.json
+
 
 Access the app on localhost:3000
