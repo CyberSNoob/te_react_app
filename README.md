@@ -13,7 +13,8 @@ In chosen folder:
 git clone https://github.com/CyberSNoob/te_react_app
 
 - Modify TE_API_KEY in .env.example file else DEFAULT api key will be used
-- change .env.example to .env
+- Change .env.example to .env
+- Allow setup scripts to run on Linux: "chmod +x *.sh"
 
 REDIS SERVER
 - Get latest redis image in docker, default port 6379
