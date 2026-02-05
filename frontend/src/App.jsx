@@ -26,15 +26,23 @@ function App() {
 				// const response = await new Promise((resolve) =>
 				// 	setTimeout(resolve, 3000),
 				// );
-				if (response.ok) setStatus("ready");
+				if (response.ok) {
+					clearTimeout(timeOutId);
+					setStatus("ready");
+				}
 			} catch (err) {
-				console.log("Waking up backend failed. No", err);
-				setStatus("error");
-			} finally {
-				clearTimeout(timeOutId);
+				if (err.name === "AbortError") {
+					console.log("Request timed out and was aborted.");
+				} else {
+					setStatus("error");
+				}
 			}
 		};
 		wakeBackEnd();
+		return () => {
+			clearTimeout(timeOutId);
+			controller.abort();
+		};
 	}, []);
 	if (status == "loading") {
 		return (
@@ -59,6 +67,11 @@ function App() {
 						Waking up the backend... (30s cold start)
 					</span>
 				</div>
+				<button
+					onClick={() => setStatus("ready")}
+					className="mt-4 text-xs text-neutral-tertiary underline hover:text-brand transition-colors">
+					Backend taking too long? Continue to app anyway
+				</button>
 			</div>
 		);
 	}
