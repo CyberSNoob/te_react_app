@@ -39,3 +39,4 @@ some_tests/
 
 #static folder
 /flask_server_api/static
+flask_server_api/cache/datacaching.py
