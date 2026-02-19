@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import Countdown from "react-countdown";
 
 const backendUrl = import.meta.env.VITE_API_URL;
-const countDownSecs = 30000;
+const countDownSecs = 50000;
 
 const Banner = () => (
 	<div className="text-white bg-red-500 font-medium text-xl flex justify-center uppercase">
