@@ -12,14 +12,20 @@ from flask_server_api import logging_config
 
 logger = logging.getLogger(__name__)
 
-logger.info(Config.TE_API_KEY)
+# logger.info(Config.TE_API_KEY)
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": Config.FRONTEND_URL}})
+CORS(app, resources={
+    r"/api/*": {"origins": Config.FRONTEND_URL, 
+                "allow_headers": ["Content-Type", "Authorization"],
+                "methods": ['GET', "POST"]}, 
+    r"/" : {"origins" : Config.FRONTEND_URL,
+            "methods": ['GET']}
+})
 
 @app.route('/')
 def index():
-    return "<h1>API server</h1>"
+    return {"status": "alive"}, 200
 
 @app.route('/api/dividends')
 @route_guard

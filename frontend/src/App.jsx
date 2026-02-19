@@ -2,10 +2,11 @@ import "./styles/App.css";
 import Footer from "./components/nav/Footer";
 import Navbar from "./components/nav/Navbar";
 import Router from "./components/Router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Countdown from "react-countdown";
 
 const backendUrl = import.meta.env.VITE_API_URL;
-console.log(backendUrl);
+const countDownSecs = 10000;
 
 const Banner = () => (
 	<div className="text-white bg-red-500 font-medium text-xl flex justify-center uppercase">
@@ -13,37 +14,89 @@ const Banner = () => (
 	</div>
 );
 
+const countDown = () => {
+	return (
+		<Countdown
+			date={Date.now() + countDownSecs}
+			renderer={(props) => <div>{props.total / 1000}</div>}
+		/>
+	);
+};
+
+const abortableDelay = (signal, ms) =>
+	new Promise((resolve) => {
+		const id = setTimeout(resolve, ms);
+		signal.addEventListener(
+			"abort",
+			() => {
+				clearTimeout(id);
+				resolve();
+			},
+			{ once: true },
+		);
+	});
+
 function App() {
 	const [status, setStatus] = useState("loading");
+	const statusRef = useRef(status);
+
+	const updateStatus = (val) => {
+		setStatus(val);
+		statusRef.current = val;
+	};
 
 	useEffect(() => {
+		let cancelled = false;
 		const controller = new AbortController();
-		const timeOutId = setTimeout(() => controller.abort(), 30000);
+
 		const wakeBackEnd = async () => {
-			try {
-				const response = await fetch(backendUrl);
-				// FOR TESTING
-				// const response = await new Promise((resolve) =>
-				// 	setTimeout(resolve, 3000),
-				// );
-				if (response.ok) {
+			const timeOutId = setTimeout(() => controller.abort(), countDownSecs);
+			while (!controller.signal.aborted && !cancelled) {
+				console.log(`Signal aborted: ${controller.signal.aborted}`);
+				try {
+					console.log("Try wake up backend...");
+					let response = await fetch(backendUrl);
+					if (!response.ok)
+						throw new Error(
+							`Error fetching data from backend. Status: ${response.status}`,
+						);
+					console.log("200 OK");
 					clearTimeout(timeOutId);
-					setStatus("ready");
+					if (!cancelled) updateStatus("ready");
+					return;
+				} catch (err) {
+					console.warn("Error occured, retrying...", err);
+					if (err.name === "AbortError") {
+						console.log("Request timed out and was aborted.");
+						return;
+					}
 				}
-			} catch (err) {
-				if (err.name === "AbortError") {
-					console.log("Request timed out and was aborted.");
-				} else {
-					setStatus("error");
-				}
+				await abortableDelay(controller.signal, 5000);
 			}
+			if (!cancelled) updateStatus("nodata");
+			console.log(`Status: ${statusRef.current}`);
 		};
 		wakeBackEnd();
 		return () => {
-			clearTimeout(timeOutId);
+			cancelled = true;
+			console.error(`Exiting, status: ${statusRef.current}`);
 			controller.abort();
 		};
 	}, []);
+
+	useEffect(() => {
+		const ping = async () => {
+			try {
+				await fetch(backendUrl);
+			} catch (err) {
+				console.error("Error occured while pinging backend", err);
+			}
+		};
+		// wait 14 mins
+		const intervalId = setInterval(ping, 14 * 60 * 1000);
+		return () => clearInterval(intervalId);
+	}, []);
+
 	if (status == "loading") {
 		return (
 			<div className="flex h-screen w-screen items-center justify-center">
@@ -63,20 +116,21 @@ function App() {
 							fill="currentFill"
 						/>
 					</svg>
-					<span className="text-sm font-medium text-neutral-tertiary">
-						Waking up the backend... (30s cold start)
+					<span className="flex text-sm font-medium text-neutral-tertiary">
+						Waking up the backend... ({countDown()} s cold start)
 					</span>
+					<button
+						onClick={() => updateStatus("nodata")}
+						className="flex flex-col items-center gap-2 mt-4 text-xs text-neutral-tertiary underline hover:text-brand transition-colors">
+						Backend taking too long? Continue to app anyway. Data will not be
+						available.
+					</button>
 				</div>
-				<button
-					onClick={() => setStatus("ready")}
-					className="mt-4 text-xs text-neutral-tertiary underline hover:text-brand transition-colors">
-					Backend taking too long? Continue to app anyway
-				</button>
 			</div>
 		);
 	}
 
-	if (status == "error" || status == "ready") {
+	if (status == "nodata" || status == "ready") {
 		return (
 			<div className="min-h-screen flex flex-col">
 				<Navbar />
